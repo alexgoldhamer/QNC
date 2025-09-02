@@ -1,5 +1,15 @@
 Question 1: 
-No, it would not be significant. That is because the p value would be equal to 0.05, not less than 0.05. This is because if somebody gets a positive test, there is a 5% chance it is wrong (it's actually negative; false position rate is 5%)
+No, it would not be significant. That is because the p value would be equal to 0.05, not less than 0.05. This is because if somebody gets a positive test, there is a 5% chance it is wrong (false position rate is 5%)
 In other words, the probability of getting a + result under the null hypothesis (that they are -) is just the false positive rate, which is 5% or 0.05 (not LESS than 0.05 which is what is needed to claim significance) 
 
 Question 2: 
+This question is framed as what is the probability that if someone gets a + test, that person is infected? I think of it as: what is the probability someone is infected GIVEN a + test so P(infected|positive) 
+Using the equation you gave us, that probability needs to take into account: P(positive|infected), which is just 1 because the question told us that the false negative rate = 0. 
+It also needs to take into account P(infected), which are 0 to 1 in steps of 0.1. That is, 0, 0.1, 0.2, 0.3, etc.
+Lastly, it needs to factor in P(positive), so how many people are TESTING positive regardless if they are ACTUALLY infected (so they would be a combination of infected and not infected)
+This should be equal to P(positive)=P(positive|infected)xP(infected)+P(positive|not infected)xP(not infected)
+Therefore, P(positive)=1x0.1 + 0.05x0.9=0.145. 
+So now to get P(infected|positive), it's: (1x0.1)/0.145=roughly 69%
+
+For that, I assumed a 0.1% infection rate. Now let's assume a 0.9% infection rate. P(positive) now becomes: (1)(.9)+(0.05)(.1)=0.905.
+Therefore, P(infected|positive) becomes: (1)(.9)/0.905 is around 99%. 
