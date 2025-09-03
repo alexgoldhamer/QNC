@@ -1,3 +1,5 @@
+PART ONE:
+
 Exercise 1 
 
  
@@ -234,5 +236,76 @@ Adding all these up I get: P(X greater than or equal to 7 | p=0.3) = 0.0932
 The probability that I would I gotten this measurement if my null hypothesis were true is roughly 9%. No, it would have to be less than 5%.  
 
 Since p hat is the value that maximizes the likelihood of getting 7 out of 14, it should be 0.5. 
+
+
+PART 2: https://www.nature.com/articles/s41598-024-68090-7
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from urllib.request import urlopen
+
+# Load the dataset directly from UCI
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/haberman/haberman.data"
+column_names = ['age', 'operation_year', 'positive_axillary_nodes', 'survival_status']
+data = pd.read_csv(url, header=None, names=column_names)
+
+# Show first few rows
+print(data.head())
+
+# Binomial example: survival_status (1 = survived 5+ years, 2 = died within 5 years)
+# We convert survival_status to 0 (survived) and 1 (died) for binomial trials
+data['died'] = data['survival_status'] - 1
+
+# Calculate probability of death within 5 years (p)
+p_death = data['died'].mean()
+print(f"Estimated probability of death within 5 years: {p_death:.3f}")
+
+# Simulate Binomial data with n=1 (Bernoulli trials), p = estimated death probability
+binomial_sim = np.random.binomial(n=1, p=p_death, size=len(data))
+
+# Plot original vs simulated survival status
+plt.figure(figsize=(10,4))
+
+plt.subplot(1,2,1)
+plt.hist(data['died'], bins=3, edgecolor='black')
+plt.title('Original Survival Status (0=survived,1=died)')
+plt.xlabel('Status')
+plt.ylabel('Count')
+
+plt.subplot(1,2,2)
+plt.hist(binomial_sim, bins=3, edgecolor='black')
+plt.title('Simulated Survival Status (Binomial)')
+plt.xlabel('Status')
+plt.ylabel('Count')
+
+plt.tight_layout()
+plt.show()
+
+# Poisson example: positive_axillary_nodes (count of positive lymph nodes)
+# Calculate lambda (mean count)
+lambda_poisson = data['positive_axillary_nodes'].mean()
+print(f"Estimated mean positive axillary nodes (λ): {lambda_poisson:.3f}")
+
+# Simulate Poisson data with estimated lambda
+poisson_sim = np.random.poisson(lam=lambda_poisson, size=len(data))
+
+# Plot original vs simulated positive lymph nodes
+plt.figure(figsize=(10,4))
+
+plt.subplot(1,2,1)
+plt.hist(data['positive_axillary_nodes'], bins=range(0, max(data['positive_axillary_nodes'])+2), edgecolor='black')
+plt.title('Original Positive Axillary Nodes')
+plt.xlabel('Number of nodes')
+plt.ylabel('Count')
+
+plt.subplot(1,2,2)
+plt.hist(poisson_sim, bins=range(0, max(poisson_sim)+2), edgecolor='black')
+plt.title('Simulated Poisson Data')
+plt.xlabel('Number of nodes')
+plt.ylabel('Count')
+
+plt.tight_layout()
+plt.show()
 
  
