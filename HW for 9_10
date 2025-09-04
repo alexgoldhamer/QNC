@@ -1,1 +1,22 @@
+Compute confidence/credible intervals based on the four methods above for simulated data sampled from a population that is:
+Gaussian distributed 
+Mean=10 
+Standard deviation =2, 
+N=5, 10, 20, 40, 80, 160, 1000 (choose 20)
+95% confidence level.
 
+METHOD 1:
+The simple, analytic approach with large n and/or known standard deviation.
+SEM: SD over square root of n --> 2/sqare root of 20: 0.447
+Based on the table, z score is equal to 1.96. 
+[Mean - SEM x 1.96, mean + SEM x 1.96]
+[9.124, 10.876]
+
+METHOD 2:
+SEM is still 0.447. 
+df=n-1=19 for n=20
+critical t value for df=19 at 95% CI=2.093
+margin of error: t x SEM = 2.093 x 0.447 = 0.935
+CI=[10-0.935, 10+0.935]=[9.065, 10.935]
+
+METHOD 3:
