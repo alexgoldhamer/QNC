@@ -1,0 +1,55 @@
+https://www.sciencedirect.com/science/article/pii/S0378437106004353?via%3Dihub
+
+Simulate personal income data using an exponential distribution with the average income parameter 
+𝑇. 
+
+𝜆=1/𝑇
+
+Number of individuals: 
+𝑁=14,000
+
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import expon
+
+# Parameters from the paper (1999–2000)
+T = 24200  # average income in AUD
+lambda_ = 1 / T
+N = 14000  # number of individuals (roughly from the ABS sample)
+
+# Simulate exponential income data
+np.random.seed(42)
+simulated_income = np.random.exponential(scale=T, size=N)
+
+# OPTIONAL: Add a sharp peak at low income (7.8k AUD) to mimic government effect
+num_spike = int(0.05 * N)  # 5% of population in the spike
+spike_income = np.full(num_spike, 7800)  # government-imposed income threshold
+simulated_income_with_spike = np.concatenate([simulated_income, spike_income])
+
+# Plotting PDF (histogram) and CDF
+fig, axs = plt.subplots(1, 2, figsize=(14, 5))
+
+# Plot PDF
+sns.histplot(simulated_income_with_spike, bins=100, kde=False, stat='density', color='skyblue', ax=axs[0])
+x = np.linspace(0, 150000, 1000)
+axs[0].plot(x, expon.pdf(x, scale=T), 'r-', lw=2, label='Exponential PDF')
+axs[0].set_xlim(0, 150000)
+axs[0].set_title('Simulated Income Distribution (PDF)')
+axs[0].set_xlabel('Income (AUD)')
+axs[0].set_ylabel('Density')
+axs[0].legend()
+
+# Plot CDF
+sorted_income = np.sort(simulated_income_with_spike)
+empirical_cdf = np.arange(1, len(sorted_income)+1) / len(sorted_income)
+axs[1].plot(sorted_income, empirical_cdf, label='Empirical CDF', color='blue')
+axs[1].plot(x, expon.cdf(x, scale=T), 'r--', lw=2, label='Exponential CDF')
+axs[1].set_xlim(0, 150000)
+axs[1].set_title('Simulated Income Distribution (CDF)')
+axs[1].set_xlabel('Income (AUD)')
+axs[1].set_ylabel('Cumulative Probability')
+axs[1].legend()
+
+plt.tight_layout()
+plt.show()
