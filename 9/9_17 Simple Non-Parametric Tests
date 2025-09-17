@@ -1,0 +1,8 @@
+Scenario 1: 
+I would use Mann-Whitney: unpaired, two sample because they are not paired and I want to compare their medians.
+
+Scenario 2: 
+I would use Wilcoxon signed-rank test: one sample or paired samples, symmetric distribution(s) because they are paired and it takes into account not just direction but also magnitude.
+
+Scenario 3:
+I would use Sign test: one sample, skewed distribution because the samples are paired and it is looking at an increase or decrease. There would be a positive value.
